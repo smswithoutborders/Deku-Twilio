@@ -3,8 +3,6 @@
 import configparser
 import requests
 
-from platforms import Platforms
-
 CONFIGS = configparser.ConfigParser(interpolation=None)
 
 CONFIGS.read("config.ini")
@@ -27,7 +25,12 @@ def incoming_messages():
 
     print(f"From: {From}\nTo: {To}\nBody: {Body}\nFromCountry: {FromCountry}\nNumSegments: {NumSegments}")
 
-    request=requests.post(router_url, json={"text":Body, "phonenumber":From})
+    try:
+        request=requests.post(router_url, json={"text":Body, "phonenumber":From})
+    except Exception as error:
+        print( error )
+    else:
+        print( request.text )
     
     return request.text
 
