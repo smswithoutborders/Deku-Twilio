@@ -1,14 +1,13 @@
 #!/bin/python
 
 import configparser
-import cloudfunctions
-import routerfunctions
+import requests
 
 from platforms import Platforms
 
 CONFIGS = configparser.ConfigParser(interpolation=None)
 
-CONFIGS.read("config.router.ini")
+CONFIGS.read("config.ini")
 # from ldatastore import Datastore
 
 from flask import Flask, request, jsonify
@@ -28,8 +27,9 @@ def incoming_messages():
 
     print(f"From: {From}\nTo: {To}\nBody: {Body}\nFromCountry: {FromCountry}\nNumSegments: {NumSegments}")
 
+    request=requests.post(router_url, json={"text":Body, "phonenumber":From})
     
-    return Body
+    return request.text
 
 
 
