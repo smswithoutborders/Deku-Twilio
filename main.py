@@ -26,13 +26,15 @@ def incoming_messages():
     print(f"From: {From}\nTo: {To}\nBody: {Body}\nFromCountry: {FromCountry}\nNumSegments: {NumSegments}")
 
     try:
-        request=requests.post(router_url, json={"text":Body, "phonenumber":From})
+        router_url = CONFIGS["CLOUD_API"]["url"]
+        print(f"[+] Router url: {router_url}")
+        api_request=requests.post(f"{router_url}/messages", json={"text":Body, "phonenumber":From})
     except Exception as error:
         print( error )
     else:
-        print( request.text )
+        print( api_request.text )
     
-    return request.text
+    return api_request.text
 
 
 
